@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+
+    <script>
+        // programable en javascript 
+        // preguntas a cuestionar
+        const personas = [
+            "Pregunta 1",
+            "Pregunta 2",
+            "Pregunta 3",
+        ];
+        // respuestas posibles
+        const respuestas = {
+            "si": {
+                "si": {
+                    "si": "Respuesta predeterminada",
+                    "no": "Respuesta predeterminada"
+                },
+                "no": {
+                    "si": "Respuesta predeterminada",
+                    "no": "Respuesta predeterminada"
+                }
+            },
+            "no": {
+                "si": {
+                    "si": "Respuesta predeterminada",
+                    "no": "Respuesta predeterminada"
+                },
+                "no": {
+                    "si": "Respuesta predeterminada",
+                    "no": "Respuesta predeterminada"
+                }
+            }
+        };
+        const respuesta_error = "Por favor, responde todas las preguntas.";
+
+        // ------------ Evita tocar el codigo de abajo ------------
+        // renderizar las preguntas
+        function renderizarPreguntas() {
+            preguntas = document.getElementById("preguntas");
+            for (let i = 0; i < personas.length; i++) {
+                const pregunta = personas[i];
+                const label = document.createElement("label");
+                label.setAttribute("for", pregunta);
+                label.textContent = pregunta;
+                preguntas.appendChild(label);
+
+                const select = document.createElement("select");
+                select.required = true;
+                select.id = `pregunta_${i}`;
+                preguntas.appendChild(select);
+
+                const option = document.createElement("option");
+                option.value = "";
+                option.disabled = true;
+                option.selected = true;
+                option.textContent = "Si/No";
+                select.appendChild(option);
+
+                const optionSi = document.createElement("option");
+                optionSi.value = "si";
+                optionSi.textContent = "SI";
+                select.appendChild(optionSi);
+
+                const optionNo = document.createElement("option");
+                optionNo.value = "no";
+                optionNo.textContent = "NO";
+                select.appendChild(optionNo);
+            }
+        }
+        // esperar que cargue la pagina
+        document.addEventListener("DOMContentLoaded", function () {
+            renderizarPreguntas();
+
+            // procesar respuestas
+            document.getElementById("calculadora_formulario").addEventListener("submit", function (event) {
+                event.preventDefault(); //evitar mandado de formulario
+                const respuesta_final = document.getElementById("respuesta_final");
+                let respuestasUsuario = respuestas;
+                // buscar respuesta
+                for (let i = 0; i < personas.length; i++) {
+                    const pregunta = document.getElementById(`pregunta_${i}`);
+                    if (respuestasUsuario[pregunta.value] === undefined) {
+                        respuestasUsuario = respuesta_error;
+                        break;
+                    } else {
+                        respuestasUsuario = respuestasUsuario[pregunta.value];
+                    }
+                }
+
+                // mostrar respuesta
+                respuesta_final.innerHTML = respuestasUsuario;
+            });
+        });
+
+
+    </script>
+
+</head>
+
+<body>
+    <section class="calculadora">
+        <form id="calculadora_formulario">
+            <div id="preguntas"></div>
+            <button type="submit">Enviar</button>
+            <p id="respuesta_final"></p>
+        </form>
+    </section>
+</body>
+
+</html>
