@@ -5,48 +5,173 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora</title>
+    <style>
+        .calculadora {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
+        #calculadora_formulario {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fff;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #respuesta_final {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
     <script>
         // programable en javascript 
         // preguntas a cuestionar
-        const personas = [
-            "Pregunta 1",
-            "Pregunta 2",
-            "Pregunta 3",
+        const preguntas_realizar = [
+            "¿Te manda mensajes buenos días sin que tú se los pidas?",
+            "¿Se pone nervioso/a cuando está cerca de ti?",
+            "¿Se ríe con tus chistes aunque NO sean graciosos?",
+            "¿Te defiende cuando alguien habla mal de ti?",
+            "¿Cambia planes importantes por estar contigo?"
         ];
-        // respuestas posibles
+        // respuestas a mostrar
         const respuestas = {
             "si": {
                 "si": {
-                    "si": "Respuesta predeterminada",
-                    "no": "Respuesta predeterminada"
+                    "si": {
+                        "si": {
+                            "si": "🔥 ¡ALERTA DE AMOR MÁXIMO! Esta persona LITERALMENTE está PERDIDAMENTE enamorada de ti. ¡ERES UN@ ROMPECORAZONES! 💘",
+                            "no": "💖 ¡CASI TE ATRAPA! Está a un paso de declararse. ¡Tienes todas las de ganar, DISPÁRALE AL AMOR! 💘"
+                        },
+                        "no": {
+                            "si": "😍 ¡ESTÁ CAYENDO! Le importas demasiado, solo necesita un empujoncito. ¡ADELANTE, GUERRER@ DEL AMOR! 💕",
+                            "no": "🤔 Le gustas, pero aún no se decide. ¡MANTÉN LA CALMA Y LA ESTRATEGIA! 💘"
+                        }
+                    },
+                    "no": {
+                        "si": {
+                            "si": "🧐 HAY SENTIMIENTOS OCULTOS. Algo lo/la frena, ¡DESCUBRE QUÉ ES! 🕵️‍♀️❤️",
+                            "no": "🤷‍♂️ Te aprecia, pero sin chispa romántica. ¡PRÓXIMO CANDIDAT@! 👀"
+                        },
+                        "no": {
+                            "si": "😶 Más amig@ que pretendiente. ¡ZONA DE AMIGOS DETECTADA! 🚨",
+                            "no": "💔 Sin química romántica. ¡EL UNIVERSO TIENE OTROS PLANES PARA TI! 🌈"
+                        }
+                    }
                 },
                 "no": {
-                    "si": "Respuesta predeterminada",
-                    "no": "Respuesta predeterminada"
+                    "si": {
+                        "si": {
+                            "si": "🤨 Interés TIBIO. Necesitas SUBIR LA TEMPERATURA, ¡ENCIENDE ESA CHISPA! 🔥",
+                            "no": "😕 Más frío que un helado en invierno. ¡PRÓXIMO OBJETIVO! 🍦"
+                        },
+                        "no": {
+                            "si": "😬 Confusión total. ¡NI ÉL/ELLA LO SABE! 🤯",
+                            "no": "🙅‍♂️ ¡CERO POSIBILIDADES, CAPITÁN! Rumbo a nuevos horizontes. 🚢"
+                        }
+                    },
+                    "no": {
+                        "si": {
+                            "si": "🥺 Te quiere... ¡PERO COMO AMIG@! 👫",
+                            "no": "💀 ¡MISIÓN IMPOSIBLE! El amor brilla por su AUSENCIA. ¡PRÓXIMA PARADA! 🚂"
+                        },
+                        "no": {
+                            "si": "😞 Sin esperanza romántica. ¡PERO EL AMOR LLEGARÁ! ❤️",
+                            "no": "🚨 ¡CÓDIGO ROJO! Aquí NO HAY ABSOLUTAMENTE NADA. ¡PERO NO TE RINDAS! 💪"
+                        }
+                    }
                 }
             },
             "no": {
                 "si": {
-                    "si": "Respuesta predeterminada",
-                    "no": "Respuesta predeterminada"
+                    "si": {
+                        "si": {
+                            "si": "🤷‍♂️ Interés MEDIO. ¡ESTRATEGIA DE AMOR EN MARCHA! 🎯",
+                            "no": "😴 Más distante que un examen de matemáticas. ¡PRÓXIMO! 📚"
+                        },
+                        "no": {
+                            "si": "😕 Dudas y más dudas. ¡QUÉ LÍO ROMÁNTICO! 🌪️",
+                            "no": "🙄 Probabilidades CASI INEXISTENTES. ¡SIGUIENTE CANDIDAT@! 👀"
+                        }
+                    },
+                    "no": {
+                        "si": {
+                            "si": "😬 Zona de AMIGOS. ¡ENTRADA PROHIBIDA AL AMOR! 🚫",
+                            "no": "💔 Ni en tus SUEÑOS MÁS LOCOS. ¡ADELANTE! 🚀"
+                        },
+                        "no": {
+                            "si": "😶 Ni te ve. ¡LO SIENTO MUCHO! 🙈",
+                            "no": "☠️ ¡MISIÓN ROMÁNTICA IMPOSIBLE! Pero recuerda: ¡EL AMOR LLEGARÁ! ❤️"
+                        }
+                    }
                 },
                 "no": {
-                    "si": "Respuesta predeterminada",
-                    "no": "Respuesta predeterminada"
+                    "si": {
+                        "si": {
+                            "si": "🤨 Interés SÚPER TIBIO. ¡Necesitas CALOR ROMÁNTICO! 🔥",
+                            "no": "😒 Menos interesado/a que un libro de contabilidad. ¡PRÓXIMO! 📊"
+                        },
+                        "no": {
+                            "si": "🤷‍♀️ Totalmente DESCONECTAD@. ¡QUÉ MISTERIO! 🌫️",
+                            "no": "🚫 ¡CERO CONEXIÓN! Ni en el UNIVERSO PARALELO. 🌌"
+                        }
+                    },
+                    "no": {
+                        "si": {
+                            "si": "😴 Te ve MÁS PLANO que una hoja de papel. 📄",
+                            "no": "💨 ¡DESVANECIDO/A COMPLETAMENTE! Ni un rastro de interés. 👻"
+                        },
+                        "no": {
+                            "si": "🌵 Más seco/a que un desierto. ¡SIN ESPERANZA! 🏜️",
+                            "no": "☢️ ¡ZONA COMPLETAMENTE MUERTA! Ni el amor más valiente entraría aquí. 💀"
+                        }
+                    }
                 }
             }
         };
+
         const respuesta_error = "Por favor, responde todas las preguntas.";
 
         // ------------ Evita tocar el codigo de abajo ------------
         // renderizar las preguntas
         function renderizarPreguntas() {
             preguntas = document.getElementById("preguntas");
-            for (let i = 0; i < personas.length; i++) {
-                const pregunta = personas[i];
+            for (let i = 0; i < preguntas_realizar.length; i++) {
+                const pregunta = preguntas_realizar[i];
                 const label = document.createElement("label");
-                label.setAttribute("for", pregunta);
+                label.setAttribute("for", `pregunta_${i}`);
                 label.textContent = pregunta;
                 preguntas.appendChild(label);
 
@@ -73,6 +198,36 @@
                 select.appendChild(optionNo);
             }
         }
+        // autodiagnostico
+        function autodiagnosticoRecursivo(estructura, nivel) {
+            if (typeof estructura === "string") {
+                if (nivel == 0) {
+                    console.log("Resultado:", estructura);
+                    return;
+                } else {
+                    console.error("Estructura poco profunda:", estructura);
+                    return;
+                }
+            }
+
+            if (!estructura || typeof estructura !== "object") {
+                console.error("Estructura invalida o incompleta:", estructura);
+                return;
+            }
+
+            if (!("si" in estructura) || !("no" in estructura)) {
+                console.error("Falta alguna respuesta en la estructura:", estructura);
+                return;
+            }
+            // reazlizar autodiagnostico recursivo
+            autodiagnosticoRecursivo(estructura["si"], nivel - 1);
+            autodiagnosticoRecursivo(estructura["no"], nivel - 1);
+        }
+
+        function autodiagnostico() {
+            autodiagnosticoRecursivo(respuestas, preguntas_realizar.length);
+        }
+
         // esperar que cargue la pagina
         document.addEventListener("DOMContentLoaded", function () {
             renderizarPreguntas();
@@ -83,7 +238,7 @@
                 const respuesta_final = document.getElementById("respuesta_final");
                 let respuestasUsuario = respuestas;
                 // buscar respuesta
-                for (let i = 0; i < personas.length; i++) {
+                for (let i = 0; i < preguntas_realizar.length; i++) {
                     const pregunta = document.getElementById(`pregunta_${i}`);
                     if (respuestasUsuario[pregunta.value] === undefined) {
                         respuestasUsuario = respuesta_error;
